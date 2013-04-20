@@ -1,0 +1,42 @@
+/**
+ *  Mux8Way16 gate: 8-way 16-bit multiplexor.
+ *
+ *		[Pseudo code]
+ *
+ *		if      sel = 000, out = a
+ *		else if sel = 001, out = b
+ *		else if sel = 010, out = c
+ *		else if sel = 011, out = d
+ *		else if sel = 100, out = e
+ *		else if sel = 101, out = f
+ *		else if sel = 110, out = g
+ *		else	sel = 111, out = h
+ *
+ *
+ *		[Verilog]
+ *
+ *		case( sel ) 
+ *		begin
+ *			3'b000:  out = a;
+ *			3'b001:  out = b;
+ *			3'b010:  out = c;
+ *			3'b011:  out = d;
+ *			3'b100:  out = e;
+ *			3'b101:  out = f;
+ *			3'b110:  out = g;
+ *			default: out = h;
+ *		end
+ *
+ */
+
+ 
+CHIP Mux8Way16 {
+
+    IN a[16], b[16], c[16], d[16], e[16], f[16], g[16], h[16], sel[3];
+    OUT out[16];
+
+    PARTS:
+		Mux4Way16( a = a, b = b, c = c, d = d, sel = sel[0..1], out = w1 );
+		Mux4Way16( a = e, b = f, c = g, d = h, sel = sel[0..1], out = w2 );
+		Mux16( a = w1, b = w2, sel = sel[2], out = out );
+}

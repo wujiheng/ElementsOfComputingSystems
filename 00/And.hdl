@@ -1,0 +1,24 @@
+/**
+ *  And gate: 8-way 16-bit multiplexor.
+ *
+ *		[Pseudo code]
+ *
+ *		out = !(!(a && b)).
+ *
+ *
+ *		[Verilog]
+ *
+ *		out  = a ~& b;
+ *
+ */
+
+ 
+CHIP And {
+
+    IN a, b;
+    OUT out;
+
+    PARTS:
+    Nand( a = a, b = b, out = w1 );
+    Not( in = w1, out = out );
+}
